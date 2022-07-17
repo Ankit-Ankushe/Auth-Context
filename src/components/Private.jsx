@@ -1,15 +1,18 @@
 import React from 'react'
 import { useContext } from 'react'
-import { Route } from 'react-router-dom'
+import { Route,useNavigate } from 'react-router-dom'
 import { AuthContext } from '../context/AuthContext'
 import Detail from './Detail'
 import Login from './Login'
 
-const Private = ({children,...rest}) => {
+const Private = ({children}) => {
     const {token} = useContext(AuthContext)
-  return (
-    <Route path='/detail' {...rest} element={token.token?<Detail/>:<Login/> }/>
-  )
+    const navigate = useNavigate()
+    if(!token.token){
+      navigate("/")
+    }
+  return  children
+  
 }
 
 export default Private
